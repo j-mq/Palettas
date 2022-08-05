@@ -1,6 +1,6 @@
 <template>
   <div class="colorSwatches">
-    <div class="mainColor"></div>
+    <div class="mainColor" :style="{ background: color }"></div>
     <div class="colorShade"></div>
     <div class="colorShade"></div>
     <div class="colorShade"></div>
@@ -14,7 +14,12 @@
 <script>
 export default {
   name: "ColorSwatch",
-  props: {},
+  props: {
+    color: {
+      type: String,
+      default: "#ffffff",
+    },
+  },
   computed: {},
   methods: {},
 };
@@ -26,12 +31,14 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  margin-bottom: 24px;
 }
 .mainColor {
   width: 50px;
   height: 50px;
   background: white;
   border-radius: 50%;
+  display: flex;
 }
 .colorShade {
   width: 33px;

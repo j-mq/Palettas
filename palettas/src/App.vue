@@ -1,9 +1,13 @@
 <template>
   <div class="container">
     <div class="layoutContainer">
-      <ColorSampling />
+      <ColorSampling @extracted-colors="onExtractColors" />
       <div class="colorSwatchList">
-        <ColorSwatch />
+        <ColorSwatch
+          v-for="(color, index) in extractedColors"
+          :key="index"
+          :color="color"
+        />
       </div>
     </div>
   </div>
@@ -15,6 +19,20 @@ import ColorSwatch from "./components/ColorSwatch.vue";
 export default {
   name: "App",
   components: { ColorSampling, ColorSwatch },
+  data() {
+    return {
+      extractedColors: [],
+    };
+  },
+  methods: {
+    onExtractColors(colors) {
+      const stringColors = colors.map(
+        (color) => `rgb(${color.r}, ${color.g}, ${color.b})`
+      );
+      const uniqueColors = [...new Set(stringColors)];
+      this.extractedColors = [...uniqueColors];
+    },
+  },
 };
 </script>
 
@@ -48,5 +66,6 @@ div {
   justify-content: center;
   width: 100%;
   padding: 32px 0px;
+  flex-direction: column;
 }
 </style>
