@@ -2,15 +2,19 @@
   <div class="container">
     <div class="layoutContainer">
       <ColorSampling />
+      <div class="colorSwatchList">
+        <ColorSwatch />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import ColorSampling from "./components/ColorSampling.vue";
+import ColorSwatch from "./components/ColorSwatch.vue";
 export default {
   name: "App",
-  components: { ColorSampling },
+  components: { ColorSampling, ColorSwatch },
 };
 </script>
 
@@ -35,6 +39,14 @@ div {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   width: 350px;
+}
+.colorSwatchList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 32px 0px;
 }
 </style>
