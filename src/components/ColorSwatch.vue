@@ -13,11 +13,11 @@
 
 <script>
 export default {
-  name: "ColorSwatch",
+  name: 'ColorSwatch',
   props: {
     color: {
       type: String,
-      default: "#ffffff",
+      default: '#ffffff',
     },
   },
   computed: {},
