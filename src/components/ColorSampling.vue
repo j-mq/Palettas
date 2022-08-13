@@ -60,7 +60,6 @@ export default {
       this.isDraggingOver = false;
     },
     importFile(file) {
-      console.log('the file>', file);
       const image = new Image();
       image.onload = () => {
         const canvas = document.getElementById('canvas');
@@ -72,6 +71,7 @@ export default {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const rgbArray = this.getRGB(imageData.data);
         const quantColors = this.quantization(rgbArray, 0);
+
         this.extractedColors = quantColors;
         this.$emit('extracted-colors', quantColors);
       };
@@ -90,7 +90,7 @@ export default {
       return rgbValues;
     },
     quantization(rgbValues, depth) {
-      const MAX_DEPTH = 4;
+      const MAX_DEPTH = 6;
       if (depth === MAX_DEPTH || rgbValues.length === 0) {
         const color = rgbValues.reduce(
           (prev, curr) => {

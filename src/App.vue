@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import ColorSampling from "./components/ColorSampling.vue";
-import ColorSwatch from "./components/ColorSwatch.vue";
+import ColorSampling from './components/ColorSampling.vue';
+import ColorSwatch from './components/ColorSwatch.vue';
 export default {
-  name: "App",
+  name: 'App',
   components: { ColorSampling, ColorSwatch },
   data() {
     return {
@@ -26,11 +26,38 @@ export default {
   },
   methods: {
     onExtractColors(colors) {
-      const stringColors = colors.map(
+      let filteredSimilarColors = [];
+      colors.forEach((colorA) => {
+        const similarColor = filteredSimilarColors.filter((colorB) => {
+          const range = 10;
+          if (
+            colorA.r === colorB.r &&
+            colorA.g === colorB.g &&
+            colorA.b === colorB.b
+          ) {
+            return true;
+          }
+          if (
+            colorA.r <= colorB.r + range &&
+            colorA.r >= colorB.r - range &&
+            colorA.g <= colorB.g + range &&
+            colorA.g >= colorB.g - range &&
+            colorA.b <= colorB.b + range &&
+            colorA.b >= colorB.b - range
+          ) {
+            return true;
+          }
+
+          return false;
+        });
+        if (similarColor.length === 0) {
+          filteredSimilarColors.push(colorA);
+        }
+      });
+      const stringColors = filteredSimilarColors.map(
         (color) => `rgb(${color.r}, ${color.g}, ${color.b})`
       );
-      const uniqueColors = [...new Set(stringColors)];
-      this.extractedColors = [...uniqueColors];
+      this.extractedColors = [...stringColors];
     },
   },
 };
