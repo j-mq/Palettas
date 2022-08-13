@@ -4,9 +4,10 @@
       <ColorSampling @extracted-colors="onExtractColors" />
       <div class="colorSwatchList">
         <ColorSwatch
-          v-for="(color, index) in extractedColors"
-          :key="index"
-          :color="color"
+          v-for="color in colors"
+          :key="color.id"
+          :color="color.color"
+          @delete-color="onDeleteColor(color.id)"
         />
       </div>
     </div>
@@ -21,7 +22,12 @@ export default {
   components: { ColorSampling, ColorSwatch },
   data() {
     return {
-      extractedColors: [],
+      colors: [
+        {
+          id: 'default',
+          color: 'rgb(128, 128, 128)',
+        },
+      ],
     };
   },
   methods: {
@@ -54,10 +60,17 @@ export default {
           filteredSimilarColors.push(colorA);
         }
       });
-      const stringColors = filteredSimilarColors.map(
-        (color) => `rgb(${color.r}, ${color.g}, ${color.b})`
-      );
-      this.extractedColors = [...stringColors];
+      const newColors = filteredSimilarColors.map((color) => {
+        return {
+          id: `${color.r}-${color.g}-${color.b})-extracted`,
+          color: `rgb(${color.r}, ${color.g}, ${color.b})`,
+        };
+      });
+      this.colors = [...newColors];
+    },
+    onDeleteColor(id) {
+      const newColors = this.colors.filter((color) => color.id !== id);
+      this.colors = [...newColors];
     },
   },
 };
