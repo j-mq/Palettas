@@ -1,5 +1,12 @@
 <template>
   <div class="colorSwatches">
+    <div
+      v-for="(scale, index) in lightScales"
+      :key="`${scale}-${index}-light`"
+      class="colorShade"
+      :color="color.color"
+      :style="{ background: scale }"
+    />
     <div class="mainColor" :style="{ background: color }">
       <button
         class="editButton"
@@ -8,38 +15,41 @@
       >
         <i class="fa-solid fa-square-xmark"></i>
       </button>
-      <button
-        class="editButton"
-        :style="{ color: buttonColor }"
-        @click="onEdit"
-      >
-        <i class="fa-solid fa-palette"></i>
-      </button>
     </div>
-    <div class="colorShade"></div>
-    <div class="colorShade"></div>
-    <div class="colorShade"></div>
-    <div class="colorShade"></div>
-    <div class="colorShade"></div>
-    <div class="colorShade"></div>
-    <div class="colorShade"></div>
+    <div
+      v-for="(scale, index) in darkScales"
+      :key="`${scale}-${index}-dark`"
+      class="colorShade"
+      :color="color.color"
+      :style="{ background: scale }"
+    />
   </div>
 </template>
 
 <script>
-import { CSSRGBToRgb, rgbToHsv } from '../utils/conversions.js';
+import { cssRgbToRgb, rgbToHsv, getColorScales } from '../utils/conversions.js';
 export default {
   name: 'ColorSwatch',
   props: {
     color: {
       type: String,
-      default: '#ffffff',
+      default: 'rgb(0, 0, 0)',
     },
   },
   emits: ['delete-color'],
+  data() {
+    return {
+      lightScales: getColorScales(this.color).lightScales.map((color) => {
+        return `rgb(${color.r}, ${color.g}, ${color.b})`;
+      }),
+      darkScales: getColorScales(this.color).darkScales.map((color) => {
+        return `rgb(${color.r}, ${color.g}, ${color.b})`;
+      }),
+    };
+  },
   computed: {
     buttonColor() {
-      const { r, g, b } = CSSRGBToRgb(this.color);
+      const { r, g, b } = cssRgbToRgb(this.color);
       const hsvColor = rgbToHsv(r, g, b);
       if (hsvColor.v < 0.8) {
         return '#ffffff';
