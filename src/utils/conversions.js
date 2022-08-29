@@ -150,9 +150,9 @@ export const getColorScales = (mainColor) => {
 };
 
 const getLightScales = (mainColor, hsv, scaleNumber) => {
-  const temperature = 15;
+  const temperature = 20;
   const reduceSaturation = -15;
-  const addValue = 10;
+  const addValue = 15;
 
   const scales = [];
   for (let i = scaleNumber; i >= 1; i -= 1) {
@@ -169,16 +169,16 @@ const getLightScales = (mainColor, hsv, scaleNumber) => {
 };
 
 const getDarkScales = (mainColor, hsv, scaleNumber) => {
-  const temperature = 15;
+  const temperature = 20;
   const addSaturation = 15;
-  const reduceValue = -10;
+  const reduceValue = -15;
 
   const scales = [];
   for (let i = 1; i <= scaleNumber; i += 1) {
     scales.push(
       calculateColor(
         mainColor,
-        calculateHue(hsv.h, temperature),
+        calculateHue(hsv.h, temperature * i),
         addToPercentage(hsv.s * 100, addSaturation * i),
         addToPercentage(hsv.v * 100, reduceValue * i)
       ).rgb
@@ -189,7 +189,6 @@ const getDarkScales = (mainColor, hsv, scaleNumber) => {
 
 const calculateHue = (hue, addition, isLight) => {
   const coldAngle = 240;
-  console.log('is light', isLight);
   const hotAngle = 60;
   const currentRotation = Math.round(hue);
 

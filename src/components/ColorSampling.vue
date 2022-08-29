@@ -19,7 +19,6 @@
 <script>
 export default {
   name: 'ColorSampling',
-  props: {},
   emits: ['extracted-colors'],
   data() {
     return {
@@ -67,7 +66,6 @@ export default {
         canvas.height = image.height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(image, 0, 0);
-        //Algorithm to get the average color of the image from https://github.com/zygisS22/color-palette-extraction
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const rgbArray = this.getRGB(imageData.data);
         const quantColors = this.quantization(rgbArray, 0);
